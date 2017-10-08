@@ -1,0 +1,18 @@
+version: "3"
+services:
+
+  postgres:
+    image: postgres:latest
+
+  data-ingest:
+    build:
+      context: ./dataIngest
+      dockerfile: Dockerfile
+    ports:
+      - 4000:4000
+
+  data-analysis:
+    build:
+      context: ./dataAnalysis
+      dockerfile: Dockerfile
+
