@@ -3,25 +3,23 @@
 Here, you would set routes for your data ingest application. Routes should define the functionality. In this example, we have ways of getting data manually, and getting and updating a schedule. This schedule might be used at some later point to get data automatically (i.e. without a user having to specifically request it).
 
 """
-import urllib.request
 import json
 
 from flask import Flask, request, jsonify
 
-from . import db
-from . import kiva
-from . import schedule
-from . import schema
+import db
+import kiva
+import schedule
+import schema
 
 app = Flask(__name__)
-app.debug = True
 
 @app.route('/', methods=['GET'])
 def hello():
-    response = urllib.request.urlopen('https://api.kivaws.org/v1/loans/newest.json')
-    res = response.read()
-    data = json.loads(res)
-    return jsonify(data)
+    # response = urllib.request.urlopen('https://api.kivaws.org/v1/loans/newest.json')
+    # res = response.read()
+    # data = json.loads(res)
+    return 'helloworld'
 
 @app.before_first_request
 def setup_database():
@@ -32,7 +30,7 @@ def get_data():
     data = kiva.get()
     transformedData = schema.transform(data)
     db.insert(transformedData)
-    return data
+    return ('',204)
 
 @app.route('/schedule', methods=['GET', 'POST'])
 def get_or_update_schedule():

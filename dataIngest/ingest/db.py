@@ -18,7 +18,7 @@ def insert(data):
 def setup():
     with Cursor() as cur:
         cur.execute("""
-            CREATE TABLE IF NOT EXISTS data (
+            CREATE TABLE IF NOT EXISTS "data" (
                 id serial PRIMARY KEY,
                 kiva_id integer, 
                 lender_name varchar,
@@ -26,16 +26,21 @@ def setup():
             );
         """)
 
-
 class Cursor():
     def __init__(self):
         self._conn = None
         self._cur = None
 
     def __enter__(self):
-        self._conn = psycopg2.connect(user='postgres', dbname='postgres', host='postgres')
-        self._cur = self._conn.cursor()
-        return self._cur
+
+        try:
+            self._conn = psycopg2.connect(user='postgres',dbname='kivadatabase', host='localhost')
+            self._cur = self._conn.cursor()
+            print ("Im Connected")
+            return self._cur
+
+        except:
+            print ("I am unable to connect to the database")
 
     def __exit__(self, *args):
         self._conn.commit()

@@ -7,6 +7,6 @@ This is where you would fetch data from Kiva. Think requets.get('http://api.kiva
 import requests
 
 def get():
-    response = requests.get('http://api.kivaws.org/v1/loans/newest.json')
+    response = requests.get('C:\Users\User\Documents\YearFourUCL-Vika\FinalYearProject-Kiva\kiva_ds_json\loans.json')
     return response.json()['loans']
 
