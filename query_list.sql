@@ -7,7 +7,6 @@ FROM loans_data INNER JOIN relationship_data ON loans_data.id = relationship_dat
 limit 10
 
 /*split by comma to rationalise to 1nf*/
-
 CREATE TABLE relationship_1nf AS
     SELECT
         loan_id, 
@@ -43,5 +42,36 @@ CREATE TABLE flows_data AS
     loans_data.borrowers_names as borrowers_names,
     loans_data.borrowers_genders as borrowers_genders,
     loans_data.repayment_interval as repayment_interval
-    FROM loans_data INNER JOIN relationship_1nf ON loans_data.id = relationship_1nf.loan_id INNER JOIN lenders_data ON lenders_data.id = relationship_1nf.lender_ids
-    
+    FROM loans_data INNER JOIN relationship_1nf ON loans_data.id = relationship_1nf.loan_id INNER JOIN lenders_data ON lenders_data.id = relationship_1nf.lender_ids    
+
+/*update a user details for their missing countries*/
+UPDATE flows_data
+SET lenders_country = 'US'
+WHERE lenders_id='gooddogg1'    
+
+/*checker for above*/
+SELECT * 
+FROM flows_data
+WHERE country_code = 'GB'
+limit 10
+
+/*Select flow from country to countries*/
+SELECT 
+	DISTINCT lenders_country,
+    loans_country_name,
+    count(loans_country_name) as counter
+FROM flows_data 
+WHERE lenders_country = 'GB'
+GROUP BY lenders_country, loans_country_name
+ORDER BY lenders_country, loans_country_name
+limit 250;
+
+/*checker for above*/
+SELECT 
+	lenders_country,
+    loans_country_name,
+    borrowers_names
+FROM flows_data 
+WHERE lenders_country = 'GB' AND loans_country_name='Bulgaria'
+limit 250;
+
