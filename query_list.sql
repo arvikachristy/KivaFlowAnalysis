@@ -101,3 +101,28 @@ FROM
     flows_data, geo_distance
 WHERE
     flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to
+
+
+-- Display from, to, distance, flow weight (country_weight_clow) basically vlookup version in psql
+SELECT SUM(flow_country_count) from(
+    SELECT 
+    geo_distance.from,
+    geo_distance.to,
+    geo_distance.kmdist,
+    count(geo_distance.from) AS flow_country_count
+    FROM 
+        flows_data, geo_distance
+    WHERE 
+        flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to 
+    GROUP BY geo_distance.from, geo_distance.to, geo_distance.kmdist
+) r
+
+\COPY population FROM 'C:/Users/User/population_update.csv' WITH (FORMAT csv);
+ALTER TABLE country_weight_flow ADD COLUMN lenders_population TEXT DEFAULT NULL;
+create table copy_table as select * from country_weight 
+
+UPDATE country_weight_flow AS t1
+SET lenders_population = p.popu_rate
+FROM population AS p
+WHERE t1.from = p.country_code
+
