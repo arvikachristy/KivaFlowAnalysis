@@ -70,8 +70,34 @@ limit 250;
 SELECT 
 	lenders_country,
     loans_country_name,
-    borrowers_names
+    borrowers_names 
 FROM flows_data 
 WHERE lenders_country = 'GB' AND loans_country_name='Bulgaria'
 limit 250;
 
+SELECT 
+COUNT(*)
+FROM lenders_data LEFT JOIN flows_data ON flows_data.lenders_id = lenders_data.id
+WHERE (loan_count IS NOT NULL AND NOT loan_count= '0' )AND flows_data IS NULL
+
+SELECT count(lenders_data.id)
+FROM lenders_data 
+LEFT JOIN relationship_1nf ON lenders_data.id = relationship_1nf.lender_ids
+WHERE relationship_1nf.lender_ids IS NULL
+
+SELECT 
+geo_dist.from,
+geo_dist.to,
+geo_dist.kmdist
+FROM 
+    flows_data LEFT JOIN geo_dist ON flows_data.lenders_country = geo_dist.from
+    LEFT JOIN geo_dist ON flows_data.loans_country_code = geo_dist.to
+
+SELECT 
+geo_distance.from,
+geo_distance.to,
+geo_distance.kmdist
+FROM 
+    flows_data, geo_distance
+WHERE
+    flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to
