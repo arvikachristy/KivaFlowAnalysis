@@ -102,7 +102,6 @@ FROM
 WHERE
     flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to
 
-
 -- Display from, to, distance, flow weight (country_weight_clow) basically vlookup version in psql
 SELECT SUM(flow_country_count) from(
     SELECT 
@@ -125,4 +124,3 @@ UPDATE country_weight_flow AS t1
 SET lenders_population = p.popu_rate
 FROM population AS p
 WHERE t1.from = p.country_code
-
