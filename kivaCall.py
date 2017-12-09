@@ -16,6 +16,11 @@ country_B=[]
 def reg_predictions(X, intercept, slope): 
     return ((slope*X) + intercept)
 
+def vertical_offset(slope, intercept, x, y):
+    y1 = slope + (intercept * x)
+    v_offset = y1 - y
+    return abs(v_offset)
+
 def simple_linear_regression(X, y):
     '''
     Returns slope and intercept for a simple regression line
@@ -84,38 +89,32 @@ def gravModel(distance, forward_count, backward_count, populationA, populationB)
 
 print("Using psycopg2…")
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-# doQuery(myConnection)
+doQuery(myConnection)
 doQuery2(myConnection)
 
 ##Plotting the graph to matplot
 
 # print(sorted(weight_flow))
-
-# print(len(weight_flow))
 for p in weight_flow:
     if (p <1):
         print("helo")
 
 x = np.log(weight_flow)
 y = np.log(plot_gravity)
-plt.ylabel('Kiva 2 Countries Flow')
-plt.xlabel('Population/distance')
-# plt.plot(x, y, 'ro')
+plt.xlabel('Kiva 2 Countries Flow (log)')
+plt.ylabel('Population/distance (log)')
 
+#Getting slope and Intercept value
 intercept, slope = simple_linear_regression(x, y)
-
 print ('Intercept: %.2f, Slope: %.2f' % (intercept, slope))
 
 line_x = np.array([x/10. for x in range(100)])
 line_y = reg_predictions(line_x, intercept, slope)
 plt.plot(x, y, 'ro', line_x, line_y, '-')
 
-# fig, ax = plt.subplots()
-# fit = np.polyfit(x, y, deg=1)
-# ax.plot(x, fit[0] * x + fit[1], color='blue')
-# ax.scatter(x, y)
-# fig.text(0.5, 0.04, 'Population/Distance', ha='center', va='center')
-# fig.text(0.06, 0.5, 'Kiva 2 Countries Flow', ha='center', va='center', rotation='vertical')
+# abline_values = [slope * i + intercept for i in x]
+# plt.plot(x, y, '--')
+# plt.plot(x, abline_values, 'b')
 
 plt.show()
 
