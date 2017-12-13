@@ -103,8 +103,10 @@ for item in country_map:
     text_file.write("{} {} {} {} {} {}\n".format(*item, offset))
 # print(sorted(offlist))
 
-y = reg_predictions(x, intercept, slope)
-plt.plot(x, y, 'ro', x, y, '-')
+# line_x = np.array([x/10. for x in range(100)])
+# print(len(line_x), 'line x')
+line_y = reg_predictions(x, intercept, slope)
+plt.plot(x, y, 'ro', x, line_y, '-')
 
 plt.show()
 
