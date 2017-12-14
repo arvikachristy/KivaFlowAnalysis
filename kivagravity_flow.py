@@ -2,6 +2,8 @@ import psycopg2
 import matplotlib.pyplot as plt
 import pandas as pd 
 import numpy as np
+import scipy
+from scipy.stats.stats import pearsonr,spearmanr
 
 hostname = 'localhost'
 username = 'postgres'
@@ -96,15 +98,11 @@ print(len(plot_gravity), 'grav_flow')
 
 text_file = open("Output.txt", "w")
 
-offlist=[]
 for item in country_map:
     offset = vertical_offset(slope, intercept, np.log(item[4]), np.log(item[3]))
-    offlist.append(offset)
+    offset_storage.append(offset)
     text_file.write("{} {} {} {} {} {}\n".format(*item, offset))
-# print(sorted(offlist))
 
-# line_x = np.array([x/10. for x in range(100)])
-# print(len(line_x), 'line x')
 line_y = reg_predictions(x, intercept, slope)
 plt.plot(x, y, 'ro', x, line_y, '-')
 
