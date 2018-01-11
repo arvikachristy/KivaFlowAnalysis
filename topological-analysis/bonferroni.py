@@ -33,7 +33,7 @@ def getLenderCount(conn):
     	hypergeo_store.append([country_from, country_to, float(n_l), float(n_r), float(flow)])
 
 def hypergeo_cal(country_from, country_to, n_l, n_r, flow):
-	prb = hypergeom.sf(flow, n_counter, n_l, n_r)
+	prb = hypergeom.cdf(flow, n_counter, n_l, n_r)
 	if prb<bonferroni: #if less then survived
 		global survived_n
 		survived_n = survived_n + 1
