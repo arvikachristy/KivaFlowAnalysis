@@ -27,7 +27,7 @@ def getRewiringdata(conn):
     cur.execute("""SELECT 
 				    lenders_country,
 				    loans_sector
-				    FROM flows_data_notnull
+				    FROM test_flows_notnull
 				    order by lenders_country, loans_sector
 					""")
     for lenders_country, loans_sector in cur.fetchall():
@@ -60,7 +60,7 @@ def calPercentage(country_l, sector_l):
 	return finale
 
 def sortAndCut(list, iteration):
-	cutsize = (iteration * 0.5)/2; 
+	cutsize = (iteration * 0.02)/2; 
 
 	list.sort()	
 
@@ -69,8 +69,11 @@ def sortAndCut(list, iteration):
 	list = list[int(cutsize):] #cut front
 
 	list = list[:len(list)-int(cutsize)] #cut back
-
+	
+	# print(list)
 	divList = [(x/ total_everything)*100 for x in list] #make it in percentage
+	# print(divList)
+	# print('after-------')
 
 	return divList
 
@@ -100,9 +103,9 @@ def shufflingFunc():
 	after = {key: sortAndCut(value, iteration) for key, value in finale.items()}
 
 	for item in after:
-	 	# print(str(item[0]),',', str(item[1]),',',(finale[item]), '%')
-	 	print(str(item[0]),',', str(item[1]),',',(finale[item][0]),'-', (finale[item][len(finale[item])-1]), '%')
-	 	
+	 	# print(str(item[0]),',', str(item[1]),',',(after[item]), '%')
+	 	print(str(item[0]),',', str(item[1]),',',(after[item][0]),',', (after[item][len(after[item])-1]), '%')	 
+	return after	
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
 getRewiringdata(myConnection)
@@ -115,7 +118,22 @@ for item in oriMap:
  	print(str(item[0]),',', str(item[1]),',',(oriMap[item]/total_everything)*100, '%')
 
 #Reshuffling
-# shufflingFunc()
+rangeMap = shufflingFunc()
+
+#Original vs Shuffling range
+print(oriMap)
+print('POMO----------------------------')
+
+for item in oriMap:
+	curRange = rangeMap.get(item) #get the range
+	actual_no = (oriMap.get(item)/total_everything)*100
+	
+	if(actual_no in np.arange(curRange[0], curRange[len(curRange)-1])):
+		print(item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;47m' + 'Within the Range!' + '\x1b[0m')
+	elif(actual_no >= curRange[len(curRange)-1]):
+		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
+	elif(actual_no <= curRange[0]):
+		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
 
 
 myConnection.close()
