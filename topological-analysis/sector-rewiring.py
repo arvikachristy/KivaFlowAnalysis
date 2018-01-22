@@ -27,7 +27,7 @@ def getRewiringdata(conn):
     cur.execute("""SELECT 
 				    lenders_country,
 				    loans_sector
-				    FROM test_flows_notnull
+				    FROM flows_data_notnull
 				    order by lenders_country, loans_sector
 					""")
     for lenders_country, loans_sector in cur.fetchall():
@@ -60,7 +60,7 @@ def calPercentage(country_l, sector_l):
 	return finale
 
 def sortAndCut(list, iteration):
-	cutsize = (iteration * 0.02)/2; 
+	cutsize = (iteration * 0.01)/2; 
 
 	list.sort()	
 
@@ -81,7 +81,7 @@ def sortAndCut(list, iteration):
 def shufflingFunc():
 	print('Starting the shuffle...')
 	permutations = set() #The new mutated sector_list
-	iteration = 20
+	iteration = 1000
 
 	while len(permutations) < iteration: #iterations???
 		random.shuffle(sector_list)
@@ -102,9 +102,9 @@ def shufflingFunc():
 	print('Sorting and Cutting and Dividing...')
 	after = {key: sortAndCut(value, iteration) for key, value in finale.items()}
 
-	for item in after:
+	# for item in after:
 	 	# print(str(item[0]),',', str(item[1]),',',(after[item]), '%')
-	 	print(str(item[0]),',', str(item[1]),',',(after[item][0]),',', (after[item][len(after[item])-1]), '%')	 
+	 	# print(str(item[0]),',', str(item[1]),',',(after[item][0]),',', (after[item][len(after[item])-1]), '%')	 
 	return after	
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
@@ -121,9 +121,6 @@ for item in oriMap:
 rangeMap = shufflingFunc()
 
 #Original vs Shuffling range
-print(oriMap)
-print('POMO----------------------------')
-
 for item in oriMap:
 	curRange = rangeMap.get(item) #get the range
 	actual_no = (oriMap.get(item)/total_everything)*100
@@ -134,6 +131,5 @@ for item in oriMap:
 		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
 	elif(actual_no <= curRange[0]):
 		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
-
 
 myConnection.close()
