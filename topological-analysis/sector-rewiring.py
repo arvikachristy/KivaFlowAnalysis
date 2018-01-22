@@ -27,7 +27,7 @@ def getRewiringdata(conn):
     cur.execute("""SELECT 
 				    lenders_country,
 				    loans_sector
-				    FROM test_flows_notnull
+				    FROM flows_data_notnull
 				    order by lenders_country, loans_sector
 					""")
     for lenders_country, loans_sector in cur.fetchall():
@@ -35,6 +35,14 @@ def getRewiringdata(conn):
     	total_everything = total_everything + 1 #counting overall row
     	countries_list.append(lenders_country)
     	sector_list.append(loans_sector)
+
+def getOriginal(country_l, sector_l):
+	counts = Counter()
+
+	for item in zip(country_l, sector_l):
+		#key        = value
+	    counts[item] += 1	
+	return counts
 
 def calPercentage(country_l, sector_l):
 	counts = Counter()
@@ -79,7 +87,7 @@ def shufflingFunc():
 	print('Shuffle done...')
 
 	counts = Counter() #only the one that got added
-	combinations = set(itertools.product(countries_list, dic_sectors)) #{(CU,Services), (CU, FOOD),....}
+	combinations = set(itertools.product(countries_list, dic_sectors)) 
 
 	for item in combinations:
 		finale[item].append(counts[item])
@@ -100,14 +108,14 @@ myConnection = psycopg2.connect( host=hostname, user=username, password=password
 getRewiringdata(myConnection)
 
 #Get Occurence original
-# oriMap = calPercentage(countries_list, sector_list)
+oriMap = getOriginal(countries_list, sector_list)
 
 #Get Percentage original
-# for item in oriMap:
-#  	print(str(item[0]),',', str(item[1]),',',(oriMap[item][0]/total_everything)*100, '%')
+for item in oriMap:
+ 	print(str(item[0]),',', str(item[1]),',',(oriMap[item]/total_everything)*100, '%')
 
 #Reshuffling
-shufflingFunc()
+# shufflingFunc()
 
 
 myConnection.close()
