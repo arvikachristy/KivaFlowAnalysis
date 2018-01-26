@@ -119,17 +119,26 @@ for item in oriMap:
 
 #Reshuffling
 rangeMap = shufflingFunc()
-
+counter =0 
+above=0
+within=0
+below=0
 #Original vs Shuffling range
 for item in oriMap:
 	curRange = rangeMap.get(item) #get the range
 	actual_no = (oriMap.get(item)/total_everything)*100
-	
-	if(actual_no in np.arange(curRange[0], curRange[len(curRange)-1])):
-		print(item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;47m' + 'Within the Range!' + '\x1b[0m')
-	elif(actual_no >= curRange[len(curRange)-1]):
-		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
+	counter = counter + 1
+		
+	if(actual_no >= curRange[len(curRange)-1]):
+		print (counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
+		above = above + 1
 	elif(actual_no <= curRange[0]):
-		print (item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
-
+		print (counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
+		below = below + 1
+	else:
+		print(counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;47m' + 'Within the Range!' + '\x1b[0m')
+		within = within + 1
+print ('Total pairs:', counter)
+print('Above: ', (above), '||Within: ', within, '|| Below: ', below)
+print('Above: ', (above/counter)*100, '% ||Within: ', (within/counter)*100, '% || Below: ', (below/counter)*100, '%')
 myConnection.close()

@@ -17,6 +17,7 @@ bonferroni = 0
 survived_n = 0
 
 graph_dist = []
+sorted_data = []
 no=0
 
 def getLenderCount(conn):
@@ -39,7 +40,7 @@ def hypergeo_cal(country_from, country_to, n_l, n_r, flow):
 		global survived_n
 		survived_n = survived_n + 1
 		graph_dist.append(prb) #applied the non random only
-		print(country_from, ',', country_to,',', prb,',', n_counter,',' ,l_counter, ',', flow)
+		sorted_data.append([country_from,country_to,prb, n_counter,l_counter, flow])
 
 def bonferroni_cal(l_val):
 	global bonferroni
@@ -53,6 +54,11 @@ for item in hypergeo_store:
 	hypergeo_cal(item[0], item[1], item[2], item[3], item[4])
 	bonferroni_cal(l_counter)
 	
+sorted_data.sort(key=lambda sorted_data: sorted_data[2])
+for item in sorted_data:
+	print(item[0], ',', item[1],',', item[2],',', item[3],',' , item[4], ',', item[5])
+
+
 print('No of survived pair:', survived_n ,'with:',(survived_n/l_counter)*100, '%')
 
 
