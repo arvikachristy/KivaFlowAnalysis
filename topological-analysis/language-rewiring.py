@@ -12,35 +12,31 @@ username = 'postgres'
 password = 'kiva123'
 database = 'kivadatabase'
 
+original_sector_store = []
 countries_list = [] #AT, AU, AU, AU...
+language_list=[]
 
-gender_list=[] #F,F,M,M,F,F,M,G
 total_everything = 0 #the overall total 
 
-dic_gender = ['female', 'male', 'group']
+dic_languages = ['Arabic','English','French','Indonesian', 'Portuguese','Russian','Spanish','Vietnamese']
 
 finale = defaultdict(list)
 after_cut = {}
 
 def getRewiringdata(conn):
-    cur = conn.cursor()    
+    cur = conn.cursor()
     cur.execute("""SELECT 
 				    lenders_country,
-				    borrowers_genders
+				    original_language
 				    FROM flows_data_notnull
-                    where borrowers_genders is not null
-				    order by lenders_country, borrowers_genders
+                    where original_language is not null
+				    order by lenders_country, original_language
 					""")
-    for lenders_country, borrowers_genders in cur.fetchall():
+    for lenders_country, original_language in cur.fetchall():
     	global total_everything
     	total_everything = total_everything + 1 #counting overall row
-    	if borrowers_genders == 'female' or borrowers_genders == 'male':
-    		countries_list.append(lenders_country)
-    		gender_list.append(borrowers_genders)
-    	else:
-    		#If not male or female, name it group
-    		countries_list.append(lenders_country)
-    		gender_list.append('group')
+    	countries_list.append(lenders_country)
+    	language_list.append(original_language)
 
 def getOriginal(country_l, sector_l):
 	counts = Counter()
@@ -86,17 +82,17 @@ def sortAndCut(list, iteration):
 
 def shufflingFunc():
 	print('Starting the shuffle...')
-	permutations = set() #The new mutated gender_list
+	permutations = set() #The new mutated language_list
 	iteration = 1000
 
 	while len(permutations) < iteration: #iterations???
-		random.shuffle(gender_list)
-		permutations.add(tuple(gender_list))
+		random.shuffle(language_list)
+		permutations.add(tuple(language_list))
 
 	print('Shuffle done...')
 
 	counts = Counter() #only the one that got added
-	combinations = set(itertools.product(countries_list, dic_gender)) 
+	combinations = set(itertools.product(countries_list, dic_languages)) 
 
 	for item in combinations:
 		finale[item].append(counts[item])
@@ -117,7 +113,7 @@ myConnection = psycopg2.connect( host=hostname, user=username, password=password
 getRewiringdata(myConnection)
 
 #Get Occurence original
-oriMap = getOriginal(countries_list, gender_list)
+oriMap = getOriginal(countries_list, language_list)
 
 #Get Percentage original
 for item in oriMap:
@@ -136,13 +132,13 @@ for item in oriMap:
 	counter = counter + 1
 		
 	if(actual_no > curRange[len(curRange)-1]):
-		print (counter, ':', item, actual_no, ',' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
+		print (counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;42m' + 'Above the Range!' + '\x1b[0m')
 		above = above + 1
 	elif(actual_no < curRange[0]):
-		print (counter, ':', item, actual_no, ',' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
+		print (counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;41m' + 'Below the Range!' + '\x1b[0m')		
 		below = below + 1
 	else:
-		print(counter, ':', item, actual_no, ',' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;47m' + 'Within the Range!' + '\x1b[0m')
+		print(counter, ':', item, actual_no, '% ,' ,curRange[0], curRange[len(curRange)-1], '|| \x1b[6;30;47m' + 'Within the Range!' + '\x1b[0m')
 		within = within + 1
 print ('Total pairs:', counter)
 print('Above: ', (above), '||Within: ', within, '|| Below: ', below)
