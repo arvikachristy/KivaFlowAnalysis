@@ -16,9 +16,9 @@ list = list[:len(list)-int(cutsize)] #cut back
 
 
 
+q1 = map(lambda x: str(x), range(2006, 2010))
 
-
-print(list)
+print(q1)
 
 
 ##################################
