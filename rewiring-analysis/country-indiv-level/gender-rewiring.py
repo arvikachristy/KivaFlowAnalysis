@@ -5,7 +5,6 @@ import scipy
 import itertools
 import random
 from collections import Counter, defaultdict
-from scipy.stats import hypergeom
 
 hostname = 'localhost'
 username = 'postgres'

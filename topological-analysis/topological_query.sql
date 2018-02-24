@@ -7,14 +7,14 @@ INNER JOIN (
     SELECT 
     country_from as dupli1,
     sum(cast(flow as int)) as n_l
-    from test_data_gbau
+    from flows_data_notnull
     GROUP BY country_from
 ) C ON S.country_from = dupli1
 INNER JOIN (
     SELECT 
     country_to as dupli2,
     sum(cast(flow as int)) as n_r
-    from test_data_gbau
+    from flows_data_notnull
     GROUP BY country_to
 ) X ON S.country_to = dupli2
 ORDER BY country_from, country_to

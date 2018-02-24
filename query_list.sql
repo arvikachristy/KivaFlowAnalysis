@@ -40,9 +40,11 @@ CREATE TABLE flows_data AS
     loans_data.funded_time as funded_time,
     loans_data.lender_count as lender_count,
     loans_data.borrowers_names as borrowers_names,
+    loans_data.original_language as original_language
     loans_data.borrowers_genders as borrowers_genders,
     loans_data.repayment_interval as repayment_interval
     FROM loans_data INNER JOIN relationship_1nf ON loans_data.id = relationship_1nf.loan_id INNER JOIN lenders_data ON lenders_data.id = relationship_1nf.lender_ids    
+
 
 /*update a user details for their missing countries*/
 UPDATE flows_data
@@ -116,11 +118,31 @@ SELECT SUM(flow_country_count) from(
     GROUP BY geo_distance.from, geo_distance.to, geo_distance.kmdist
 ) r
 
-\COPY population FROM 'C:/Users/User/population_update.csv' WITH (FORMAT csv);
+\COPY analysis_data FROM 'C:/Users/User/right_data.csv' WITH (FORMAT csv);
 ALTER TABLE country_weight_flow ADD COLUMN lenders_population TEXT DEFAULT NULL;
+
 create table copy_table as select * from country_weight 
+    
+DELETE FROM geo_distance WHERE kmdist='kmdist';
 
 UPDATE country_weight_flow AS t1
 SET lenders_population = p.popu_rate
 FROM population AS p
 WHERE t1.from = p.country_code
+
+--Display Backward and forward flow by creating a copy_temp table
+SELECT 
+    country_weight_flow.country_from,
+     country_weight_flow.country_to,
+     country_weight_flow.flow_country_count as forward_count,
+     copy_temp.flow_country_count as backward_count,     
+     country_weight_flow.kmdist,
+     country_weight_flow.lenders_population,
+     country_weight_flow.loans_population
+FROM
+    copy_temp, country_weight_flow
+WHERE
+    country_weight_flow.country_from = copy_temp.country_to AND country_weight_flow.country_to = copy_temp.country_from
+
+
+INSERT INTO test_backward test_backward test_backward(country)

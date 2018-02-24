@@ -31,7 +31,7 @@ create table test_temp as SELECT
         order by lenders_country, loans_sector) as sectorcount 
     group by sectorcount.lenders_country
 
-#Step 3: join 1 and 2
+#Step 3: join 1 and 2 put in python
 SELECT
 subtable.lenders_country,
 subtable.loans_sector,
@@ -46,3 +46,25 @@ FROM
     group by loans_sector, lenders_country
     order by lenders_country, loans_sector) as subtable
 JOIN test_temp as ori ON ori.lenders_country = subtable.lenders_country
+
+
+---------------------------------------------------------------------
+SELECT 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

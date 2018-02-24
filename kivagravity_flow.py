@@ -100,7 +100,7 @@ text_file = open("Output.txt", "w")
 
 for item in country_map:
     offset = vertical_offset(slope, intercept, np.log(item[4]), np.log(item[3]))
-    offset_storage.append(offset)
+    # offset_storage.append(offset)
     text_file.write("{} {} {} {} {} {}\n".format(*item, offset))
 
 line_y = reg_predictions(x, intercept, slope)

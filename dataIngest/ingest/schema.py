@@ -12,7 +12,7 @@ def model(data):
     return {
         'lenderId': data['id'],
         'lenderName': data['name'],
-        'isImportantLender': True if data['loan_amount'] > 2000 else False,
+        'isImportantLender': True if data['loan_count'] > 0 else False,
     }
 
 def transform(data):

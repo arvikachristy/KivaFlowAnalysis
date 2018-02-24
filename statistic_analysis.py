@@ -15,27 +15,30 @@ database = 'kivadatabase'
 offset_store =[]
 gdp_store = []
 offset_abs_store = []
+flow_store = []
+
 def doQuery(conn):
     cur = conn.cursor()
     counter = 0
     cur.execute("""SELECT 
-                    country_from, country_to, offset_value, gdp_abs, offset_abs
+                    country_from, country_to, offset_value, gdp_abs, offset_abs, flow_log
 					FROM analysis_data
 					""")
 
-    for country_from, country_to, offset_value, gdp_diff_abs, offset_abs in cur.fetchall():
+    for country_from, country_to, offset_value, gdp_diff_abs, offset_abs, flow_log in cur.fetchall():
     	offset_store.append(float(offset_value))
     	gdp_store.append(float(gdp_diff_abs))
     	offset_abs_store.append(float(offset_abs))
+    	flow_store.append(float(flow_log))
+
     print(len(offset_store))
     print(len(gdp_store))
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
 doQuery(myConnection)
 
-
-print (kendalltau(np.array(offset_abs_store), np.array(gdp_store)))
-print (pearsonr(np.array(offset_abs_store), np.array(gdp_store)))
+print (kendalltau(np.array(flow_store), np.array(gdp_store)))
+print (pearsonr(np.array(flow_store), np.array(gdp_store)))
 
 
 
