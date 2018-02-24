@@ -118,7 +118,7 @@ SELECT SUM(flow_country_count) from(
     GROUP BY geo_distance.from, geo_distance.to, geo_distance.kmdist
 ) r
 
-\COPY analysis_data FROM 'C:/Users/User/right_data.csv' WITH (FORMAT csv);
+\COPY usa_rewiring_data FROM 'C:/Users/User/name-gender-dict.csv' WITH (FORMAT csv);
 ALTER TABLE country_weight_flow ADD COLUMN lenders_population TEXT DEFAULT NULL;
 
 create table copy_table as select * from country_weight 

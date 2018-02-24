@@ -1,3 +1,15 @@
+
+###############################################################################
+# USA GENDER GUESSER SCRIPT - using basic library (Advanced is in another script)
+# -----------------------------------------------------------------------------
+# This script is made to create the gender dictionary based on lender's name and 
+# import it to a csv file.
+# In order to do so, we use a python library called gender guesser
+# While not optimal, this script can be combined with hitting free API to guess 
+# those that's still unknown
+# Level: Individual to Individual (USA Network)
+###############################################################################
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -6,6 +18,7 @@ import random
 from collections import Counter, defaultdict
 import gender_guesser.detector as gender
 import csv
+
 
 hostname = 'localhost'
 username = 'postgres'
@@ -23,7 +36,8 @@ d = gender.Detector()
 def getRewiringdata(conn):
     cur = conn.cursor()    
     cur.execute("""SELECT 
-				    lenders_name,
+				    DISTINCT on (lenders_name)
+                    lenders_name,
 				    borrowers_genders
 				    FROM flows_data_notnull
                     where borrowers_genders is not null AND lenders_country = 'US'
@@ -32,32 +46,32 @@ def getRewiringdata(conn):
 	
     with open('name-gender-dict.csv', 'w') as myFile:
 	    for lenders_name, borrowers_genders in cur.fetchall():
-	    	if lenders_name not in name_list:
-			    try:
-			    	global counter, female, male, unknown
-			    	lenders_name = lenders_name.title().partition(' ')[0]
-			    	lender_gender = d.get_gender(lenders_name)
+		    try:
+		    	global counter, female, male, unknown
+		    	lenders_name = lenders_name.title().partition(' ')[0].replace(',','')
+		    	lender_gender = d.get_gender(lenders_name)
+		    	counter = counter + 1
+		    	if lenders_name not in name_list:
 
-			    	counter = counter + 1
 			    	print(lenders_name + ": " + lender_gender)
 
 			    	if lender_gender == 'female' or lender_gender == 'mostly_female':
 			    		female = female + 1
-			    		myData = [lenders_name, lender_gender]
+			    		myData = [lenders_name, 'female']
 				    	writer = csv.writer(myFile)
 				    	writer.writerow(myData)
 
 			    	elif lender_gender == 'male' or lender_gender == 'mostly_male':
 			    		male = male + 1
-			    		myData = [lenders_name, lender_gender]
+			    		myData = [lenders_name, 'male']
 				    	writer = csv.writer(myFile)
 				    	writer.writerow(myData)
 
 			    	else :
 			    		unknown = unknown + 1
 			    	name_list.append(lenders_name)
-			    except:
-			    	pass
+		    except:
+		    	pass
     print('Total of: ', counter, '||Female: ', female, '|| Male: ', male , '|| Unknown:', unknown)    	
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)

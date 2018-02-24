@@ -1,3 +1,13 @@
+
+###############################################################################
+# GENDER REWIRING
+# -----------------------------------------------------------------------------
+# This is the script for gender rewiring, the result can be seen 
+# clearly on the terminal after running it
+# Level: Country to Individual (Whole Network)
+###############################################################################
+
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
