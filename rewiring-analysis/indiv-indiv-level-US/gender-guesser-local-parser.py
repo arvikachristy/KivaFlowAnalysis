@@ -2,7 +2,7 @@
 ###############################################################################
 # USA GENDER GUESSER SCRIPT - using basic library (Advanced is in another script)
 # -----------------------------------------------------------------------------
-# This script is made to create the gender dictionary based on lender's name and 
+# This script is made to create the GENDER DICTIONARY based on lender's name and 
 # import it to a csv file.
 # In order to do so, we use a python library called gender guesser
 # While not optimal, this script can be combined with hitting free API to guess 

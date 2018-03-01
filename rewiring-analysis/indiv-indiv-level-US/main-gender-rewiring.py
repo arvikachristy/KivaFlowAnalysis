@@ -4,7 +4,7 @@
 # -----------------------------------------------------------------------------
 # This is the script for gender rewiring, the result can be seen 
 # clearly on the terminal after running it
-# Level: Country to Individual (Whole Network)
+# Level: indiv to Individual (Whole Network)
 ###############################################################################
 
 
@@ -33,8 +33,8 @@ after_cut = {}
 
 def getRewiringdata(conn):
     cur = conn.cursor()    
-    cur.execute("""SELECT lender_gender, borrower_gender 
-					from usa_rewiring_data 
+    cur.execute("""SELECT lender_gender, borrowers_genders
+					from ph_rewiring
 					where lender_gender != 'unknown'
 					""")
     for lender_gender, borrowers_genders in cur.fetchall():

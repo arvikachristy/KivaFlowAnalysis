@@ -1,4 +1,10 @@
-
+###############################################################################
+# USA GENDER GUESSER SCRIPT - using basic library (Advanced is in another script)
+# -----------------------------------------------------------------------------
+# This script is made AFTER creating the gender dictionary on psql
+# We use this script to fill the rest of the gende-less names on your database
+# Level: Individual to Individual (Philliphines borrowers Network)
+###############################################################################
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
