@@ -46,6 +46,12 @@ end
 [peaVal, pvalp] = corr(keeper(1,:)',keeper(2,:)','Type','Pearson');
 [kenVal, pvalk] = corr(keeper(1,:)',keeper(2,:)','Type','Kendall');
 
+mu = 0;
+sigma = 1;
+pd = makedist('Normal',mu,sigma);
+x = ;
+y=cdf(pd, x);
+
 %Create regression line
 x = keeper(4,:)';
 y = keeper(1,:)';
