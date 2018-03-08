@@ -16,16 +16,27 @@ tic
 % dist =[res.result{:,3}]';
 % flow =[res.result{:,5}]';
 
-%Open this to use sorted data by offset
-load('sortedbyoffset.mat');
-offset = getfield(sortedbyoffset, 'offset');
-gdpabs = getfield(sortedbyoffset, 'GDPDiffabs');
-dist = getfield(sortedbyoffset, 'distance');
-flow = getfield(sortedbyoffset, 'flow');
+% %Open this to use sorted data by offset
+% load('sortedbyoffset.mat');
+% offset = getfield(sortedbyoffset, 'offset');
+% gdpabs = getfield(sortedbyoffset, 'GDPDiffabs');
+% dist = getfield(sortedbyoffset, 'distance');
+% flow = getfield(sortedbyoffset, 'flow');
+% offsetabs = getfield(sortedbyoffset, 'offsetabs');
+
+% %Open this to use sorted data by offset ABS
+% load('sortedbyoffsetabs.mat');
+% offset = getfield(sortedbyoffsetABS, 'offset');
+% gdpabs = getfield(sortedbyoffsetABS, 'GDPDiffabs');
+% dist = getfield(sortedbyoffsetABS, 'distance');
+% flow = getfield(sortedbyoffsetABS, 'flow');
+% offsetabs = getfield(sortedbyoffsetABS, 'offsetabs');
+
+
 
 %For splitting bands offset
 sizer = size(gdpabs,1);
-keeper = zeros(4,0);
+keeper = zeros(5,0);
 counter = 1;
 
 band_eliminate = 1;
@@ -33,13 +44,14 @@ band_eliminate = 1;
 for i = 1:sizer
 %     if (offset(i)>=0)
         band_eliminate = band_eliminate + 1;
-%         if(band_eliminate > 570)
+%          if(band_eliminate < 570)
         keeper(1,counter) = offset(i);
         keeper(2,counter) = gdpabs(i);
         keeper(3,counter) = dist(i);
         keeper(4,counter) = flow(i);
+        keeper(5,counter) = offsetabs(i);        
         counter = counter + 1;
-%         end
+%          end
 %     end
 end
 
