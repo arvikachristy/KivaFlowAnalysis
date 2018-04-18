@@ -1,4 +1,3 @@
-
 ###############################################################################
 # USA GENDER GUESSER SCRIPT - using basic library (Advanced is in another script)
 # -----------------------------------------------------------------------------
@@ -6,7 +5,7 @@
 # import it to a csv file.
 # In order to do so, we use a python library called gender guesser
 # While not optimal, this script can be combined with hitting free API to guess 
-# those that's still unknown
+# those that's still unknown.
 # Level: Individual to Individual (USA Network)
 ###############################################################################
 

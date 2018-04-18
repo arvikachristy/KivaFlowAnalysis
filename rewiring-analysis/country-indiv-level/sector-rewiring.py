@@ -1,3 +1,12 @@
+###############################################################################
+# SECTOR REWIRING
+# -----------------------------------------------------------------------------
+# This is the script for sector rewiring, the result can be seen 
+# clearly on the terminal after running it
+# Level: Country to Individual
+###############################################################################
+
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np

@@ -1,10 +1,9 @@
-
 ###############################################################################
 # GENDER REWIRING
 # -----------------------------------------------------------------------------
 # This is the script for gender rewiring, the result can be seen 
 # clearly on the terminal after running it
-# Level: indiv to Individual (Whole Network)
+# Level: Indiv to Indiv (Whole Network)
 ###############################################################################
 
 
