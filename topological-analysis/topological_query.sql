@@ -1,4 +1,10 @@
-#######bonferroni Query
+###############################################################################
+# Topological Analysis SQL Query
+# -----------------------------------------------------------------------------
+# This file lists all of the query that we used in the PSQL database in conducting
+# topological analysis. 
+# **To note, most of the topological query were reusing the same tables in gravity model
+###############################################################################
 
 #1 Add Nl and Nr data to the table
 create table test_data_gb_au as SELECT 
@@ -19,5 +25,3 @@ INNER JOIN (
 ) X ON S.country_to = dupli2
 ORDER BY country_from, country_to
 
-#2 delete dupli from console 
-#3 

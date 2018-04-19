@@ -1,5 +1,14 @@
-/*relationship between three tables*/
+###############################################################################
+# Gravity Model SQL Query
+# -----------------------------------------------------------------------------
+# This file lists all of the query that we used in the PSQL database in conducting
+# gravity analysis. 
+# This query list includes those that we're using in the topological 
+# and rewiring analysis.
+###############################################################################
 
+
+/*relationship between three tables*/
 SELECT 
 lenders_data.id as lenders_id,
 loans_data.id as loans_id
@@ -104,7 +113,7 @@ FROM
 WHERE
     flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to
 
--- Display from, to, distance, flow weight (country_weight_clow) basically vlookup version in psql
+/*Display from, to, distance, flow weight (country_weight_clow) basically vlookup version in psql*/
 SELECT SUM(flow_country_count) from(
     SELECT 
     geo_distance.from,
@@ -117,32 +126,3 @@ SELECT SUM(flow_country_count) from(
         flows_data.lenders_country = geo_distance.from AND flows_data.loans_country_code = geo_distance.to 
     GROUP BY geo_distance.from, geo_distance.to, geo_distance.kmdist
 ) r
-
-\COPY usa_rewiring_data FROM 'C:/Users/User/name-gender-dict.csv' WITH (FORMAT csv);
-ALTER TABLE country_weight_flow ADD COLUMN lenders_population TEXT DEFAULT NULL;
-
-create table copy_table as select * from country_weight 
-    
-DELETE FROM geo_distance WHERE kmdist='kmdist';
-
-UPDATE country_weight_flow AS t1
-SET lenders_population = p.popu_rate
-FROM population AS p
-WHERE t1.from = p.country_code
-
---Display Backward and forward flow by creating a copy_temp table
-SELECT 
-    country_weight_flow.country_from,
-     country_weight_flow.country_to,
-     country_weight_flow.flow_country_count as forward_count,
-     copy_temp.flow_country_count as backward_count,     
-     country_weight_flow.kmdist,
-     country_weight_flow.lenders_population,
-     country_weight_flow.loans_population
-FROM
-    copy_temp, country_weight_flow
-WHERE
-    country_weight_flow.country_from = copy_temp.country_to AND country_weight_flow.country_to = copy_temp.country_from
-
-
-INSERT INTO test_backward test_backward test_backward(country)
