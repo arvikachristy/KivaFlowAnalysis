@@ -1,10 +1,9 @@
-
 ###############################################################################
 # GENDER REWIRING
 # -----------------------------------------------------------------------------
 # This is the script for gender rewiring, the result can be seen 
 # clearly on the terminal after running it
-# Level: Country to Individual (Whole Network)
+# Level: Country to Individual 
 ###############################################################################
 
 
@@ -42,7 +41,8 @@ def getRewiringdata(conn):
 					""")
     for lenders_country, borrowers_genders in cur.fetchall():
     	global total_everything
-    	total_everything = total_everything + 1 #counting overall row
+    	#counting overall row
+    	total_everything = total_everything + 1 
     	if borrowers_genders == 'female' or borrowers_genders == 'male':
     		countries_list.append(lenders_country)
     		gender_list.append(borrowers_genders)
@@ -78,17 +78,10 @@ def sortAndCut(list, iteration):
 	cutsize = (iteration * 0.01)/2; 
 
 	list.sort()	
-
-	# print('Cutting this much item:', cutsize)
-
 	list = list[int(cutsize):] #cut front
-
 	list = list[:len(list)-int(cutsize)] #cut back
-	
-	# print(list)
+
 	divList = [(x/ total_everything)*100 for x in list] #make it in percentage
-	# print(divList)
-	# print('after-------')
 
 	return divList
 
@@ -98,7 +91,7 @@ def shufflingFunc():
 	permutations = set() #The new mutated gender_list
 	iteration = 1000
 
-	while len(permutations) < iteration: #iterations???
+	while len(permutations) < iteration:
 		random.shuffle(gender_list)
 		permutations.add(tuple(gender_list))
 
@@ -116,10 +109,7 @@ def shufflingFunc():
 
 	print('Sorting and Cutting and Dividing...')
 	after = {key: sortAndCut(value, iteration) for key, value in finale.items()}
-
-	# for item in after:
-	 	# print(str(item[0]),',', str(item[1]),',',(after[item]), '%')
-	 	# print(str(item[0]),',', str(item[1]),',',(after[item][0]),',', (after[item][len(after[item])-1]), '%')	 
+ 
 	return after	
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
@@ -138,6 +128,7 @@ counter =0
 above=0
 within=0
 below=0
+
 #Original vs Shuffling range
 for item in oriMap:
 	curRange = rangeMap.get(item) #get the range

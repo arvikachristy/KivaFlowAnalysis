@@ -1,5 +1,5 @@
 ###############################################################################
-# SECTOR REWIRING
+# Sector REWIRING
 # -----------------------------------------------------------------------------
 # This is the script for sector rewiring, the result can be seen 
 # clearly on the terminal after running it

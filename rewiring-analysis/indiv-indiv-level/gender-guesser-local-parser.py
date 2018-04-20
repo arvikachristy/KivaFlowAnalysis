@@ -6,7 +6,7 @@
 # In order to do so, we use a python library called gender guesser
 # While not optimal, this script can be combined with hitting free API to guess 
 # those that's still unknown.
-# Level: Individual to Individual (USA Network)
+# Level: Individual to Individual
 ###############################################################################
 
 import psycopg2

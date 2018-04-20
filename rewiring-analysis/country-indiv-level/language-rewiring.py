@@ -1,3 +1,12 @@
+###############################################################################
+# Language REWIRING
+# -----------------------------------------------------------------------------
+# This is the script for language rewiring, the result can be seen 
+# clearly on the terminal after running it
+# Level: Country to Individual 
+###############################################################################
+
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,10 +22,10 @@ password = 'kiva123'
 database = 'kivadatabase'
 
 original_sector_store = []
-countries_list = [] #AT, AU, AU, AU...
+countries_list = []
 language_list=[]
 
-total_everything = 0 #the overall total 
+total_everything = 0
 
 dic_languages = ['Arabic','English','French','Indonesian', 'Portuguese','Russian','Spanish','Vietnamese']
 
@@ -65,17 +74,10 @@ def sortAndCut(list, iteration):
 	cutsize = (iteration * 0.01)/2; 
 
 	list.sort()	
-
-	# print('Cutting this much item:', cutsize)
-
 	list = list[int(cutsize):] #cut front
-
 	list = list[:len(list)-int(cutsize)] #cut back
-	
-	# print(list)
+
 	divList = [(x/ total_everything)*100 for x in list] #make it in percentage
-	# print(divList)
-	# print('after-------')
 
 	return divList
 
@@ -85,7 +87,7 @@ def shufflingFunc():
 	permutations = set() #The new mutated language_list
 	iteration = 1000
 
-	while len(permutations) < iteration: #iterations???
+	while len(permutations) < iteration:
 		random.shuffle(language_list)
 		permutations.add(tuple(language_list))
 
@@ -103,10 +105,7 @@ def shufflingFunc():
 
 	print('Sorting and Cutting and Dividing...')
 	after = {key: sortAndCut(value, iteration) for key, value in finale.items()}
-
-	# for item in after:
-	 	# print(str(item[0]),',', str(item[1]),',',(after[item]), '%')
-	 	# print(str(item[0]),',', str(item[1]),',',(after[item][0]),',', (after[item][len(after[item])-1]), '%')	 
+ 
 	return after	
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
@@ -125,6 +124,7 @@ counter =0
 above=0
 within=0
 below=0
+
 #Original vs Shuffling range
 for item in oriMap:
 	curRange = rangeMap.get(item) #get the range

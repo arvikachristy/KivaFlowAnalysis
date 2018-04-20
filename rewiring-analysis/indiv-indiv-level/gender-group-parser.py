@@ -3,8 +3,9 @@
 # -----------------------------------------------------------------------------
 # This script is made AFTER creating the gender dictionary on psql
 # We use this script to fill the rest of the gender-less names on your database
-# Current Level: Individual to Individual (Philliphines borrowers Network)
+# Current Level: Individual to Individual 
 ###############################################################################
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np

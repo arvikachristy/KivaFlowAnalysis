@@ -1,3 +1,12 @@
+###############################################################################
+# Topological Analysis - BVP
+# -----------------------------------------------------------------------------
+# This is the script for topological analysis, utilising the BVP.
+# the result can be seen clearly on the terminal after running it
+# Level: Country to Country
+###############################################################################
+
+
 import psycopg2
 import matplotlib.pyplot as plt
 import numpy as np
@@ -45,7 +54,6 @@ def hypergeo_cal(country_from, country_to, n_l, n_r, flow):
 def bonferroni_cal(l_val):
 	global bonferroni
 	bonferroni = 0.001/l_val
-	# print('bonferroni:', bonferroni, 'L:,', l_val)
 
 myConnection = psycopg2.connect( host=hostname, user=username, password=password, dbname=database)
 getLenderCount(myConnection)
