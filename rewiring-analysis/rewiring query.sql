@@ -94,14 +94,3 @@ from usa_rewiring_data A
 left join usa_gender_dict B
 on LOWER(A.lenders_name) = LOWER(B.name)
 
-
-
-
-
-
-
-
-
-
-
-
