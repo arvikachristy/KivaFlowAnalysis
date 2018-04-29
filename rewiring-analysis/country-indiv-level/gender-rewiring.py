@@ -55,15 +55,12 @@ def getOriginal(country_l, sector_l):
 	counts = Counter()
 
 	for item in zip(country_l, sector_l):
-		#key        = value
 	    counts[item] += 1	
 	return counts
 
 def calPercentage(country_l, sector_l):
 	counts = Counter()
-
 	for item in zip(country_l, sector_l):
-		#key        = value
 	    counts[item] += 1
 
 	for item in finale:
