@@ -3,10 +3,10 @@
 # -----------------------------------------------------------------------------
 # This file lists all of the query that we used in the PSQL database in conducting
 # topological analysis. 
-# **To note, most of the topological query were reusing the same tables in gravity model
+# **To note, most of the topological query were reusing the same tables as gravity model
 ###############################################################################
 
-#1 Add Nl and Nr data to the table
+# Add Nl and Nr data to the table
 create table test_data_gb_au as SELECT 
 * FROM test_data_gbau S
 INNER JOIN (

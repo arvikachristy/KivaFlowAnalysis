@@ -8,7 +8,7 @@
 ###############################################################################
 
 
-/*relationship between three tables*/
+/*Relationship between the main three tables*/
 SELECT 
 lenders_data.id as lenders_id,
 loans_data.id as loans_id
