@@ -1,9 +1,9 @@
-
-% [arclen,az] = distance(-25.274398,133.775136,20.593684,78.96288);
-% X = [-25.274398,133.775136;20.593684,78.96288];
-% d = pdist(X,'euclidean');
-% [res, reso]= lldistkm([-6.369028,34.888822],[-30.559482	22.937506]);
-% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% # Gravity Model - As-the-crow-fly script
+% # -----------------------------------------------------------------------
+% # This script lists the method that we use to obtain the as-the-crow-fly 
+% distance between two countries capital.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function [d1km, d2km]=latlongReader(latlon1,latlon2)
 radius=6371;
